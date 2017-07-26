@@ -8,7 +8,10 @@ package pml_backup;
 /**
  *
  * @author Isaac
+ * 
+ * Objeto que almacenará todos los datos de una transacción entre las dos bases de datos.
  */
+
 public class datos {    
     Demo demo;
     Dossier dossier;

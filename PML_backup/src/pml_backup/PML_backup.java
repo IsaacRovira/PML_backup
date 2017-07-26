@@ -35,11 +35,12 @@ public class PML_backup {
     }
     
 }
+
+///<editor-fold defaultstate="collapsed" desc="descripción de los datos">
 /*
 select count(dosid) from demande
 
 select distinct demo.demid from demo inner join dossier on demo.demid=dossier.demid where (DosBackup is null or DosBackup!=1)
-
 
 select DEMID,DEMIPP,DEMNOM,DEMPRENOM,DEMNOMJF,DEMSEXE,DEMAGE,DEMAGEUNIT,DEMDATENAI,DEMCOMMENT,DEMADRESSE,DEMMARK,DEMSERVICE,DEMDOCTOR,DEMVETTYPEID from DEMO where DEMID=3397168
 select DOSID,DEMID,DOSDATE,DOSTIME,DOSSERVICE,COMMENT1,COMMENT2,DOSDOCTOR,DOSAGE,DOSAGEUNIT,DOSLastDATERUN,DOSLastANAID,DOSLastTUBEGODET,DOSLastTUBEPLATEAU,DOSLastSAMPLEID,DemDateTime,PrelevDateTime,ArchDateTime,DosBackup from dossier where demid=3397167 and (DosBackup is null or DosBackup!=1)
@@ -162,5 +163,5 @@ Update dossier set DosBackup = 1 where dosid=2913435
  select id from sysobjects where type='U' and name='PARAMETRE'
  select name,length,type from syscolumns where id=1698105090 order by colid
  select * from PARAMETRE
-
 */
+//</editor-fold>
