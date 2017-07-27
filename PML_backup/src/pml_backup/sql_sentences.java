@@ -19,9 +19,4 @@ public class sql_sentences {
     static final String JDBC_DRIVER= "com.mysql.jdbc.Driver";   
     
     Connection conn = null;
-        
-    trystatic {
-    
-}
-
 }

@@ -7,7 +7,9 @@ package pml_backup;
 import java.sql.*;
 import java.util.*;
 import java.io.*;
+import java.util.logging.Logger;
 import org.sqlite.*;
+
 /**
  *
  * @author Isaac
@@ -16,7 +18,7 @@ import org.sqlite.*;
  * Crear las tablas.
  * 
  */
-public class sqlitedb {
+class sqlitedb {
     static final String USER = "usuario";
     static final String PASS = "password";
     static final String JDBC_SQL = "org.sqlite.JDBC";
@@ -93,25 +95,32 @@ public class sqlitedb {
         
         return map;
     }
-    
-    public void set_nombredb(String nombredb){
-        this.nombredb = nombredb;
-    }
-    public void set_url(String url){
-        this.url = url;
-    }
-    public void set_path(String path){
-        this.path = path;
-    }
-    public String get_nombredb(){
-        return nombredb;
-    }
-    public String get_url(){
-        return url;
-    }
-    public String get_path(){
+
+    ///<editor-fold defaultstate="collapsed" desc="getters and setters">
+    public String getPath() {
         return path;
     }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getNombredb() {
+        return nombredb;
+    }
+
+    public void setNombredb(String nombredb) {
+        this.nombredb = nombredb;
+    }
+    //</editor-fold>
     
    /**
     * Conectar y crear una nueva base de datos
@@ -133,7 +142,23 @@ public class sqlitedb {
             System.out.println(e.getMessage());
         }
     }
-        
+    
+    /**
+     * 
+     * @param string cadena con formato fecha hora "ddMMyyyy HH:mm:ss:SSS"
+     * @return devuelve sql.Date
+     */
+    private java.sql.Date sqlDateFormat(String string){
+        java.text.SimpleDateFormat formato = new java.text.SimpleDateFormat("ddMMyyyy HH:mm:ss:SSS");
+        try{
+            java.util.Date formateada = formato.parse(string);
+            
+            return new java.sql.Date(formateada.getTime());
+        }catch(Exception ex){
+            System.out.println("sqlDateFormat: " + ex.getMessage());
+        }        
+        return null;
+    }        
     
     public void consulta(String sql){
         Statement stmt;
@@ -146,58 +171,126 @@ public class sqlitedb {
             //ERROR HANDLER HERE
         }     
     }
-
+    
     /**
-     *      
-     * @param dosid 
-     * @param chiid
-     * @param bilid
-     * @param result
-     * @param rescritique
-     * @param last
-     * @param demid
-     * @param libelle
-     * @param sampleid
-     * @param flags
-     * @param rerun
-     * @param anaid
-     * @param fdilut
-     * @param resvalidusr 
+     * 
+     * @param pstmt PreparedStatement
+     * @param data datos con los que construir el preparedStatement
+     * @return PreparedStatement
      */
-    public void insert_AnalyseA(int dosid, int chiid, int bilid, int result, char rescritique, char last, int demid, String libelle, String sampleid, String flags,
-            int rerun, int anaid, float fdilut, int resvalidusr){
-        String sql = stmts_insert.get("Insert_AnalyseA");
+    private PreparedStatement pstmtBuilder(PreparedStatement pstmt, Data data){
+        try{
+            for(int n = 0; n < data.getLista().size(); n++){
+                pstmt.setObject(n+1, data.getLista().get(n));
+            }
+        }catch(Exception ex){
+            System.out.println("pstmtBuilder: " + ex.getMessage());
+        }
+        return pstmt;
+    }
+    
+    /**
+     * 
+     * @param data datos a enviar en el insert.
+     */
+    public void insertData(Data data){
+        String sql = stmts_insert.get("Insert_" + data.getClass().getSimpleName());
         try{
             if(conn.isValid(0)){
                 PreparedStatement pstmt = conn.prepareStatement(sql);
-                pstmt.setInt(1, dosid);
-                pstmt.setInt(2, chiid);
-                pstmt.setInt(3, bilid);
-                pstmt.setInt(4, result);
-                pstmt.setString(5, String.valueOf(rescritique));
-                pstmt.setString(6, String.valueOf(last));
-                pstmt.setInt(7, demid);
-                pstmt.setString(8, libelle);
-                pstmt.setString(9, sampleid);
-                pstmt.setString(10, flags);
-                pstmt.setInt(11,rerun);
-                pstmt.setInt(12, anaid);
-                pstmt.setFloat(13, fdilut);
-                pstmt.setInt(14, resvalidusr);
+                pstmt = pstmtBuilder(pstmt, data);
+                pstmt.executeUpdate();
             }
-        }catch(Exception e){            
-            //Error handler here
+        }catch(Exception ex){
+            System.out.println("insertData: " + ex.getMessage());
         }
-    }    
-    
-    private String getclass(Object n){
-        return n.getClass().getSimpleName();
     }
-    
+           
+    /**
+     * Crea las tablas en una nueva BD.
+     */
     public void crearTablas(){
         stmts_create.forEach((k,V)->consulta(V));        
     }
     
+    ///<editor-fold defaultstate="collapsed" desc="Metodos secundarios">
+    /**
+     * 
+     * @param datos classe AnalyseaA que contiene una variable para cada uno de los atributos de la tabla AnalyseA.
+     */
+    public void insert_AnalyseA(AnalyseA datos){
+        String sql = stmts_insert.get("Insert_AnalyseA");
+        try{
+            if(conn.isValid(0)){
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, datos.getDosid());
+                pstmt.setInt(2, datos.getChiid());
+                pstmt.setInt(3, datos.getBilid());
+                pstmt.setInt(4, datos.getResult());
+                pstmt.setString(5, String.valueOf(datos.getRescritique()));
+                pstmt.setString(6, String.valueOf(datos.getLast()));
+                pstmt.setInt(7, datos.getDemid());
+                pstmt.setString(8, datos.getLibelle());
+                pstmt.setString(9, datos.getSampleid());
+                pstmt.setString(10, datos.getFlags());
+                pstmt.setInt(11, datos.getRerun());
+                pstmt.setInt(12, datos.getAnaid());
+                pstmt.setFloat(13, datos.getFdilut());
+                pstmt.setInt(14, datos.getResvalidusr());
+            }
+        }catch(Exception e){            
+            //Error handler here
+        }
+    }
     
+    /**
+     * 
+     * @param datos classe Commentaire
+     */
+    public void insert_Commentaire(Commentaire datos){
+        String sql = stmts_insert.get("Insert_Commentaire");
+        try{
+            if(conn.isValid(0)){
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, datos.getComid());
+                pstmt.setInt(2, datos.getComindex());
+                pstmt.setString(3, datos.getCommentaire());
+                
+                pstmt.executeUpdate();
+            }
+        }catch(Exception e){
+            System.out.println("Insert_comentario: " + e.getMessage());            
+        }
+        
+    }   
+    
+    public void insert_Demo(Demo datos){
+        String sql = stmts_insert.get("Insert_Demo");
+        try{
+            if(conn.isValid(0)){
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(1, datos.getDemid());
+                pstmt.setString(2, datos.getDemipp());
+                pstmt.setString(3, datos.getDemnom());
+                pstmt.setString(4, datos.getDemprenom());
+                pstmt.setString(5, datos.getDemnomjf());
+                pstmt.setString(6, String.valueOf(datos.getDEMSEXE()));
+                pstmt.setFloat(7, datos.getDemage());
+                pstmt.setString(8, String.valueOf(datos.getDemageunit()));
+                pstmt.setDate(9, sqlDateFormat(datos.getDemdatenai()));
+                pstmt.setString(10, datos.getDemcoment());
+                pstmt.setString(11, datos.getDemadresse());
+                pstmt.setString(12, String.valueOf(datos.getDemmark()));
+                pstmt.setInt(13, datos.getDemservice());
+                pstmt.setInt(14, datos.getDemdoctor());
+                pstmt.setInt(15, datos.getDemvettype());
+                
+                pstmt.executeUpdate();
+            }
+        }catch(Exception e){            
+            //Error handler here
+        }
+    }
+    //</editor-fold>
 }
 

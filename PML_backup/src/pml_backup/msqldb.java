@@ -39,7 +39,7 @@ public class mssqldb {
        this.stmts.put("Count_DOSID","select count(dosid) from demande");
        this.stmts.put("Get_DEMID","select distinct demo.demid from demo inner join dossier on demo.demid=dossier.demid where (DosBackup is null or DosBackup!=1)");
        this.stmts.put("From_Demo","select DEMID,DEMIPP,DEMNOM,DEMPRENOM,DEMNOMJF,DEMSEXE,DEMAGE,DEMAGEUNIT,DEMDATENAI,DEMCOMMENT,DEMADRESSE,DEMMARK,DEMSERVICE,DEMDOCTOR,DEMVETTYPEID from DEMO where DEMID=" + demid);
-       this.stmts.put();
+       this.stmts.put("");
    }
     
 }
