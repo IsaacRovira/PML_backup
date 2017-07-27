@@ -93,6 +93,7 @@ public class sqlitedb {
         
         return map;
     }
+    
     public void set_nombredb(String nombredb){
         this.nombredb = nombredb;
     }
@@ -145,25 +146,49 @@ public class sqlitedb {
             //ERROR HANDLER HERE
         }     
     }
+
     /**
-     * 
-     * @param key clave que identifica al string del insert en el MAP<String, String> que contiene todos los insert.
+     *      
+     * @param dosid 
+     * @param chiid
+     * @param bilid
+     * @param result
+     * @param rescritique
+     * @param last
+     * @param demid
+     * @param libelle
+     * @param sampleid
+     * @param flags
+     * @param rerun
+     * @param anaid
+     * @param fdilut
+     * @param resvalidusr 
      */
-    public void insert(String key){
-        String sql = stmts_insert.get(key);
-        Statement stmt;        
+    public void insert_AnalyseA(int dosid, int chiid, int bilid, int result, char rescritique, char last, int demid, String libelle, String sampleid, String flags,
+            int rerun, int anaid, float fdilut, int resvalidusr){
+        String sql = stmts_insert.get("Insert_AnalyseA");
         try{
             if(conn.isValid(0)){
                 PreparedStatement pstmt = conn.prepareStatement(sql);
-                
-                
-                stmt = conn.createStatement();
-                stmt.executeUpdate(sql);
+                pstmt.setInt(1, dosid);
+                pstmt.setInt(2, chiid);
+                pstmt.setInt(3, bilid);
+                pstmt.setInt(4, result);
+                pstmt.setString(5, String.valueOf(rescritique));
+                pstmt.setString(6, String.valueOf(last));
+                pstmt.setInt(7, demid);
+                pstmt.setString(8, libelle);
+                pstmt.setString(9, sampleid);
+                pstmt.setString(10, flags);
+                pstmt.setInt(11,rerun);
+                pstmt.setInt(12, anaid);
+                pstmt.setFloat(13, fdilut);
+                pstmt.setInt(14, resvalidusr);
             }
-        }catch(Exception e){
+        }catch(Exception e){            
             //Error handler here
         }
-    }
+    }    
     
     private String getclass(Object n){
         return n.getClass().getSimpleName();
