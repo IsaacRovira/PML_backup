@@ -16,6 +16,7 @@ import org.sqlite.*;
  * 
  * Crear la base de datos.
  * Crear las tablas.
+ * Realizar las consultas
  * 
  */
 class sqlitedb {
@@ -122,7 +123,8 @@ class sqlitedb {
     }
     //</editor-fold>
     
-   /**
+   
+    /**
     * Conectar y crear una nueva base de datos
     * 
     * @param url url del ficheo de la base de datos (path + name)
@@ -143,22 +145,7 @@ class sqlitedb {
         }
     }
     
-    /**
-     * 
-     * @param string cadena con formato fecha hora "ddMMyyyy HH:mm:ss:SSS"
-     * @return devuelve sql.Date
-     */
-    private java.sql.Date sqlDateFormat(String string){
-        java.text.SimpleDateFormat formato = new java.text.SimpleDateFormat("ddMMyyyy HH:mm:ss:SSS");
-        try{
-            java.util.Date formateada = formato.parse(string);
-            
-            return new java.sql.Date(formateada.getTime());
-        }catch(Exception ex){
-            System.out.println("sqlDateFormat: " + ex.getMessage());
-        }        
-        return null;
-    }        
+    
     
     public void consulta(String sql){
         Statement stmt;
@@ -171,6 +158,8 @@ class sqlitedb {
             //ERROR HANDLER HERE
         }     
     }
+    
+    
     
     /**
      * 
@@ -214,6 +203,25 @@ class sqlitedb {
     }
     
     ///<editor-fold defaultstate="collapsed" desc="Metodos secundarios">
+    
+    /**
+     * 
+     * @param string cadena con formato fecha hora "ddMMyyyy HH:mm:ss:SSS"
+     * @return devuelve sql.Date
+     */
+    private java.sql.Date sqlDateFormat(String string){
+        java.text.SimpleDateFormat formato = new java.text.SimpleDateFormat("ddMMyyyy HH:mm:ss:SSS");
+        try{
+            java.util.Date formateada = formato.parse(string);
+            
+            return new java.sql.Date(formateada.getTime());
+        }catch(Exception ex){
+            System.out.println("sqlDateFormat: " + ex.getMessage());
+        }        
+        return null;
+    }  
+    
+    
     /**
      * 
      * @param datos classe AnalyseaA que contiene una variable para cada uno de los atributos de la tabla AnalyseA.
@@ -243,6 +251,8 @@ class sqlitedb {
         }
     }
     
+    
+    
     /**
      * 
      * @param datos classe Commentaire
@@ -262,7 +272,9 @@ class sqlitedb {
             System.out.println("Insert_comentario: " + e.getMessage());            
         }
         
-    }   
+    }
+    
+    
     
     public void insert_Demo(Demo datos){
         String sql = stmts_insert.get("Insert_Demo");

@@ -12,12 +12,17 @@ import java.util.*;
  *
  * @author Isaac
  */
-public class mssqldb {
+class mssqldb {
     String nombredb;
+    String url;
     
-    static final String USER = "abx";
-    static final String PASS = "hr1528";
-    static final String JDBC_MSSQL = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    final String URL = "jdbc:sqlserver://localhost\\\\SQLEXPRESS;databaseName=MYDB";
+    
+    //Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+    
+    final String USER = "abx";
+    final String PASS = "hr1528";
+    final String JDBC_MSSQL = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
         
     Connection conn;    
     Statement stmt;
@@ -25,11 +30,12 @@ public class mssqldb {
     Map<String,String> stmts;
     
     
-   public mssqldb(){
-       this.conn = null;
-       this.nombredb = null;
-       this.stmt = null;
-       this.stmts = null;
+    public mssqldb(){
+       try{
+           this.conn = DriverManager.getConnection(URL, USER, PASS);
+       }catch(Exception e){
+           System.out.println("mssqldb: " + e.getMessage());
+       }
    }
    
    public mssqldb(String nombredb){
@@ -39,7 +45,13 @@ public class mssqldb {
        this.stmts.put("Count_DOSID","select count(dosid) from demande");
        this.stmts.put("Get_DEMID","select distinct demo.demid from demo inner join dossier on demo.demid=dossier.demid where (DosBackup is null or DosBackup!=1)");
        this.stmts.put("From_Demo","select DEMID,DEMIPP,DEMNOM,DEMPRENOM,DEMNOMJF,DEMSEXE,DEMAGE,DEMAGEUNIT,DEMDATENAI,DEMCOMMENT,DEMADRESSE,DEMMARK,DEMSERVICE,DEMDOCTOR,DEMVETTYPEID from DEMO where DEMID=" + demid);
-       this.stmts.put("");
+       //this.stmts.put("");
    }
+   
+   public 
+   
+   //Obtener todos los "dosid" desde "Dossier".
+   //Obtener todos los "demid" desde "Dossier".
+   //Obtener todos los "runaid" desde "RunA" según los "dosid" obtenidos.
     
 }

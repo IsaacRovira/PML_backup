@@ -225,21 +225,7 @@ class Demo extends Data{
     }
     
     public void UpdateDemoList(){
-        lista.add(0, demid);
-        lista.add(1, demipp);
-        lista.add(2, demnom);
-        lista.add(3, demprenom);
-        lista.add(4, demnomjf);
-        lista.add(5, demsexe);
-        lista.add(6, demage);
-        lista.add(7, demageunit);
-        lista.add(8, demdatenai);
-        lista.add(9, demcoment);
-        lista.add(10, demadresse);
-        lista.add(11, demmark);
-        lista.add(12, demservice);
-        lista.add(13, demdoctor);
-        lista.add(14,demvettype);        
+        DemoListBuilder();        
     }
         
 }
@@ -248,7 +234,7 @@ class Demo extends Data{
  * Representa los atributos de la tabla Dossier de la base de datos de la ML.
  * @author HotLine.Madrid
  */
-class Dossier{        
+class Dossier extends Data{        
     int dosid, demid, dosservice, comment1, comment2, dosdoctor, doslastanaid, doslasttubegodet, doslasttubeplateau, dosbackup;    
     String dosdate, dostime, doslastdaterun, doslastsampleid, demdatetime, prelevdatetime, archdatetime;
     float dosage;
@@ -428,6 +414,33 @@ class Dossier{
         this.archdatetime = archdatetime;
         this.dosage = dosage;
         this.dosageunit = dosageunit;
+        DossierListBuilder();
+    }
+    
+    private void DossierListBuilder(){
+        lista.add(0,dosid);
+        lista.add(1,demid);
+        lista.add(2,dosdate);
+        lista.add(3,dostime);
+        lista.add(4,dosservice);
+        lista.add(5,comment1);
+        lista.add(6,comment2);
+        lista.add(7,dosdoctor);
+        lista.add(8,dosage);
+        lista.add(9,dosageunit);
+        lista.add(10,doslastdaterun);
+        lista.add(11,doslastanaid);
+        lista.add(12,doslasttubegodet);
+        lista.add(13,doslasttubeplateau);
+        lista.add(14,doslastsampleid);
+        lista.add(15,demdatetime);
+        lista.add(16,prelevdatetime);
+        lista.add(17,archdatetime);
+        lista.add(18,dosbackup);
+    }
+    
+    public void UpdateDossierList(){
+        DossierListBuilder();       
     }
 }
 
@@ -435,7 +448,7 @@ class Dossier{
  * Representa los valores que se pueden obtener de la tabla AnalyseA en la base de datos de la ML.
  * @author HotLine.Madrid
  */
-class AnalyseA{
+class AnalyseA extends Data{
     int dosid, chiid, bilid, result, demid, rerun, anaid, resvalidusr ;
     char rescritique, last;
     String libelle, sampleid, flags;
@@ -571,13 +584,34 @@ class AnalyseA{
         this.flags = flags;
         this.fdilut = fdilut;
     }
+    
+    private void AnalyseaAListBuilder(){
+        lista.add(0, dosid);
+        lista.add(1, chiid);
+        lista.add(2, bilid);
+        lista.add(3, result);
+        lista.add(4, rescritique);
+        lista.add(5, last);
+        lista.add(6, demid);
+        lista.add(7, libelle);
+        lista.add(8, sampleid);
+        lista.add(9, flags);
+        lista.add(11, rerun);
+        lista.add(12, anaid);
+        lista.add(13, fdilut);
+        lista.add(14, resvalidusr);
+    }
+    
+    public void UpdateAnalyseaAList(){
+        AnalyseaAListBuilder();
+    }
 }
 
 /**
  * Representa los valores que se pueden obtener de la tabla commentaire de la ML.
  * @author HotLine.Madrid
  */
-class Commentaire{
+class Commentaire extends Data{
     int comid, comindex;
     String commentaire;
     
@@ -612,14 +646,27 @@ class Commentaire{
         this.comid = comid;
         this.comindex = comindex;
         this.commentaire = commentaire;
+        CommentaireListBuilder();
+    }
+    
+    private void CommentaireListBuilder(){
+        lista.add(0, comid);
+        lista.add(1, comindex);
+        lista.add(2, commentaire);
+    }
+    
+    public void UpdateCommentaireList(){
+        CommentaireListBuilder();
     }
 }
+
+
 
 /**
  * Representa los atributos de la tabla Run_A_EQC.
  * @author HotLine.Madrid
  */
-class Run_A_EQC{
+class Run_A_EQC extends Data{
     int runAID, protoid, status, userid, errcode, instrid, ppid;
     String protoname, lot, dt, comment;
     
@@ -728,13 +775,32 @@ class Run_A_EQC{
         this.comment = comment;
     }
     
+    private void Run_A_EQCListBuilder(){
+        lista.add(0, runAID);
+        lista.add(1, protoid);
+        lista.add(2, protoname);
+        lista.add(3, lot);
+        lista.add(4, status);
+        lista.add(5, userid);
+        lista.add(6, errcode);
+        lista.add(7, dt);
+        lista.add(8, instrid);
+        lista.add(9, ppid);
+        lista.add(10, comment);                
+    }
+    
+    public void UpdateRun_A_EQCList(){
+        Run_A_EQCListBuilder();
+    }
 }
+
+
 
 /**
  * Representa los atributos de la tabla ReactifA.
  * @author HotLine.Madrid
  */
-class ReactifA{
+class ReactifA extends Data{
     int reagentAID, dosid, reagentRunAID;
     String reagentlot, reagenttype, reagentdatetime;
     
@@ -797,13 +863,28 @@ class ReactifA{
         this.reagenttype = reagenttype;
         this.reagentdatetime = reagentdatetime;
     }
+    
+    private void ReactifAListBuilder(){
+        lista.add(0, reagentAID);
+        lista.add(1, dosid);
+        lista.add(2, reagentlot);
+        lista.add(3, reagenttype);
+        lista.add(4, reagentRunAID);
+        lista.add(5, reagentdatetime);
+    }
+    
+    public void UpdateReactifAList(){
+        ReactifAListBuilder();
+    }
 }
+
+
 
 /**
  * Representa los atributos de la tabla RunA.
  * @author HotLine.Madrid
  */
-class RunA{
+class RunA extends Data{
     int runAID, dosid, RunNumber, RunAna;
     String RunDateTime, AnaType, AnaName, SerialNb;
     
@@ -883,6 +964,22 @@ class RunA{
         this.AnaType = AnaType;
         this.AnaName = AnaName;
         this.SerialNb = SerialNb;
+        RunAListBuilder();
+    }
+    
+    private void RunAListBuilder(){
+        lista.add(0, runAID);
+        lista.add(1, dosid);
+        lista.add(2, RunDateTime);
+        lista.add(3, RunNumber);
+        lista.add(4, RunAna);
+        lista.add(5, AnaType);
+        lista.add(6, AnaName);
+        lista.add(7, SerialNb);
+    }
+    
+    public void UpdateRunaList(){
+        RunAListBuilder();
     }
 }
 
@@ -956,7 +1053,7 @@ class ScandataA extends Data{
         ScandataListBuilder();
     }
     
-     private void ScandataListBuilder(){
+    private void ScandataListBuilder(){
         lista.add(0, sdid);
         lista.add(1, dosid);
         lista.add(2, anaid);
@@ -965,12 +1062,7 @@ class ScandataA extends Data{
         lista.add(5, val);    
     }
     
-    public void updateScandataList(){
-        lista.add(0, sdid);
-        lista.add(1, dosid);
-        lista.add(2, anaid);
-        lista.add(3, scantype);
-        lista.add(4, dilut);
-        lista.add(5, val);
+    public void UpdateScandataList(){
+        ScandataListBuilder();
     }    
 }
