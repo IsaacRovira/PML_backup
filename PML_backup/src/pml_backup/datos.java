@@ -26,7 +26,7 @@ class Data{
  * Almacena en sendos int array las identificaciones dosid, runaid, demoid de los datos que vamos a tratar.
  * @author Isaac
  */
-class atributosID{    
+class AtributosID{    
     int[] dosid, runAID, demoid;
     
     ///<editor-fold defaultstate="collapsed" desc="getters and setters">
