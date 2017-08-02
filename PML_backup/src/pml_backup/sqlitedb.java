@@ -145,8 +145,6 @@ class sqlitedb {
         }
     }
     
-    
-    
     public void consulta(String sql){
         Statement stmt;
         try{

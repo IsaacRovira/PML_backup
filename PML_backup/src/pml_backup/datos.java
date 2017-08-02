@@ -27,7 +27,7 @@ class Data{
  * @author Isaac
  */
 class AtributosID{    
-    int[] dosid, runAID, demoid;
+    int[] dosid, runAID, demoid, commid;
     
     ///<editor-fold defaultstate="collapsed" desc="getters and setters">
     public int[] getDosid() {
@@ -53,7 +53,18 @@ class AtributosID{
     public void setDemoid(int[] demoid) {
         this.demoid = demoid;
     }
+    
+    public int[] getComid() {
+        return comid;
+    }
+
+    public void setComid(int[] comid) {
+        this.comid = comid;
+    }
+    
     //</editor-fold>
+
+
 }
 
 /**
@@ -449,10 +460,10 @@ class Dossier extends Data{
  * @author HotLine.Madrid
  */
 class AnalyseA extends Data{
-    int dosid, chiid, bilid, result, demid, rerun, anaid, resvalidusr ;
+    int dosid, chiid, bilid, demid, rerun, anaid, resvalidusr ;
     char rescritique, last;
     String libelle, sampleid, flags;
-    float fdilut;
+    float fdilut, result;
     
     ///<editor-fold defaultstate="collapsed" desc="getters and setters">
     public int getDosid() {
@@ -568,7 +579,7 @@ class AnalyseA extends Data{
     }
     //</editor-fold>
     
-    public AnalyseA(int dosid, int chiid, int bilid, int result, int demid, int rerun, int anaid, int resvalidusr, char rescritique, char last, String libelle, String sampleid, String flags, float fdilut) {
+    public AnalyseA(int dosid, int chiid, int bilid, float result, int demid, int rerun, int anaid, int resvalidusr, char rescritique, char last, String libelle, String sampleid, String flags, float fdilut) {
         this.dosid = dosid;
         this.chiid = chiid;
         this.bilid = bilid;
@@ -854,7 +865,16 @@ class ReactifA extends Data{
         this.reagentdatetime = reagentdatetime;
     }
     //</editor-fold>
-
+    
+    /**
+     * Constructor...
+     * @param reagentAID
+     * @param dosid
+     * @param reagentRunAID
+     * @param reagentlot
+     * @param reagenttype
+     * @param reagentdatetime 
+     */
     public ReactifA(int reagentAID, int dosid, int reagentRunAID, String reagentlot, String reagenttype, String reagentdatetime) {
         this.reagentAID = reagentAID;
         this.dosid = dosid;
